@@ -8,16 +8,13 @@ PROJECT(project_test CXX)
 SET(CMAKE_RELEASE_POSTFIX "")
 SET(CMAKE_DEBUG_POSTFIX "-debug")
 
-# specify where compiled file must go
+# specify where compiled files must go
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # add cmake FindXXX script to find libraries if any
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-# compile tests
-ENABLE_TESTING()
 
 # How to compile dependencies
 ADD_SUBDIRECTORY(dependencies)
@@ -30,6 +27,9 @@ ADD_SUBDIRECTORY(src)
 OPTION(BUILD_TESTING "Enable tests" ON)
 
 IF(BUILD_TESTING)
+    # compile tests
+    ENABLE_TESTING()
+
     MESSAGE("-- Building tests")
     ADD_SUBDIRECTORY(tests)
 ENDIF(BUILD_TESTING)
