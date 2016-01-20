@@ -12,3 +12,13 @@ void print_hello_world()
     for(auto i:hel)
         std::cout << i;
 }
+
+
+int my_function(){
+    return 1;
+}
+
+
+double square2(double x){
+    return x * x;
+}

@@ -30,7 +30,7 @@ The project is using the following tools:
 
 Example: add OpenCV to the project
 
-    git submodule add https://github.com/Itseez/opencv.git
+    git submodule add https://github.com/Itseez/opencv.git dependencies/opencv
 
 
 # Doxygen (untested)
@@ -48,10 +48,11 @@ from https://majewsky.wordpress.com/2010/08/14/tip-of-the-day-cmake-and-doxygen/
 
 # Benchmarking tools
 
-*Goole Perf ?
-*Nonius ?
-*hayai ?
+* Goole Perf ?
+* Nonius ?
+* hayai ?
 
+# Design
 
 # Issues
 
