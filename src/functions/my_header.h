@@ -3,6 +3,6 @@
 
 void print_hello_world();
 int my_function();
-double square(double x);
+double square2(double x);
 
 #endif
