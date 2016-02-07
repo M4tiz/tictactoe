@@ -19,8 +19,9 @@ LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 # Project's Options
 # ====================================
 
-OPTION(BUILD_TESTING        "Enable tests"       ON)
-OPTION(BUILD_DOCUMENTATION  "Build docs"         ON)
+OPTION(BUILD_TESTING        "Enable tests"       OFF)
+OPTION(BUILD_BENCHMARK      "Build Benchmarks"   OFF)
+OPTION(BUILD_DOCUMENTATION  "Build docs"         OFF)
 OPTION(BUILD_DOXYGEN        "Build Doxygen docs" ON)
 OPTION(BUILD_SPHINX         "Build Sphinx docs"  ON)
 
@@ -28,14 +29,15 @@ OPTION(BUILD_SPHINX         "Build Sphinx docs"  ON)
 # ====================================
 
 FIND_PACKAGE(Git REQUIRED)
-# FIND_PACKAGE(Sphinx REQUIRED)
-# FIND_PACKAGE(Sphinx REQUIRED)
+# FIND_PACKAGE(...)
+
 
 # Subdirectories
 # ====================================
 
 # Find revision ID and hash of the sourcetree
-include(cmake/genrev.cmake)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR})
+INCLUDE(cmake/genrev.cmake)
 
 # Dependencies to be compiled
 ADD_SUBDIRECTORY(dependencies)
@@ -52,7 +54,10 @@ IF(BUILD_TESTING)
     ADD_SUBDIRECTORY(tests)
 ENDIF(BUILD_TESTING)
 
-ADD_SUBDIRECTORY(benchmark)
+IF (BUILD_BENCHMARK)
+    MESSAGE("-- Building Benchmarks")
+    ADD_SUBDIRECTORY(benchmark)
+ENDIF(BUILD_BENCHMARK)
 
 # Gen doc ?
 IF (BUILD_DOCUMENTATION)
