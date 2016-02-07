@@ -1,17 +1,22 @@
+# better way ?
 INCLUDE_DIRECTORIES(.)
+
+# Source files
+# ====================================
+#           (Glob is not recommended)
 
 SET(PROJECT_TEST_HDS
     functions/my_header.h
-    math.h)
+)
 
 SET(PROJECT_TEST_SRC
-    math.cpp
-    functions/my_source.cpp)
+    functions/my_source.cpp
+)
 
-#
+# main library (prevent recompilation when building tests)
 ADD_LIBRARY(project_test ${PROJECT_TEST_SRC} ${PROJECT_TEST_HDS})
 
-#
+# main executable
 ADD_EXECUTABLE(main main.cpp)
 TARGET_LINK_LIBRARIES(main project_test)
 
