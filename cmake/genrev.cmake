@@ -24,7 +24,7 @@ endif()
 
 
 SET(CONF_FILE_LOC "${CMAKE_SOURCE_DIR}/src/revision_data.h.in.cmake")
-SET(CONF_BUILD_LOC "${BUILDDIR}/src/revision_data.h")
+SET(CONF_BUILD_LOC "${BUILDDIR}/revision_data.h")
 
 if(WITHOUT_GIT)
   set(rev_date "1970-01-01 00:00:00 +0000")
