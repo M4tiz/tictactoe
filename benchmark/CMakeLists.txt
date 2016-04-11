@@ -14,10 +14,11 @@ MACRO(BENCH_MACRO NAME) # LIBRARIES
     
     # gtest need to be compiled first
     ADD_DEPENDENCIES(${NAME}_bench hayai_main)
+    SET_PROPERTY(TARGET ${NAME}_bench PROPERTY CXX_STANDARD 11)
 ENDMACRO(BENCH_MACRO)
 
 # add test here
 # file_name_test.cpp ==> CBTEST_MACRO(file_name)
-BENCH_MACRO(square)
+BENCH_MACRO(mult)
 
 

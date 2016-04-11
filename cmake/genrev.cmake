@@ -22,9 +22,8 @@ if(NOT BUILDDIR)
   set(BUILDDIR ${CMAKE_BINARY_DIR})
 endif()
 
-
-SET(CONF_FILE_LOC "${CMAKE_SOURCE_DIR}/src/revision_data.h.in.cmake")
-SET(CONF_BUILD_LOC "${BUILDDIR}/revision_data.h")
+SET(CONF_FILE_LOC "${CMAKE_SOURCE_DIR}/src/version.h.in.cmake")
+SET(CONF_BUILD_LOC "${BUILDDIR}/version.h")
 
 if(WITHOUT_GIT)
   set(rev_date "1970-01-01 00:00:00 +0000")
@@ -71,10 +70,10 @@ else()
     set(rev_hash "unknown")
     set(rev_branch "Archived")
   else()
-    message("-- Git info\n"
-            "    * Hash  : ${rev_hash} \n" 
-            "    * Date  : ${rev_date} \n"  
-            "    * Branch: ${rev_branch}")
+    message(STATUS "Git info\n"
+                   "    * Hash  : ${rev_hash} \n"
+                   "    * Date  : ${rev_date} \n"
+                   "    * Branch: ${rev_branch}")
   endif()
 endif()
 

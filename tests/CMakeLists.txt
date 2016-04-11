@@ -1,29 +1,30 @@
-#
-#   issue: what if *_test need a specific library ?
-#
-
 # tests need source header
 INCLUDE_DIRECTORIES(../src)
 
-# I am not sure we need this
-INCLUDE_DIRECTORIES(${gtest_dir})
-INCLUDE_DIRECTORIES(${gtest_dir}/include/)
+# This is for QtCreator which does not add single header to the project
+SET(TEST_HEADER
+    add_test.h mult_test.h)
 
 # Add your test to CMAKE
 # to run all tests run 'make test'
-MACRO(TEST_MACRO NAME) # LIBRARIES
-    ADD_EXECUTABLE(${NAME}_test ${NAME}_test.cpp)
-    TARGET_LINK_LIBRARIES(${NAME}_test project_test gtest -pthread)
-    # TARGET_LINK_LIBRARIES(${NAME}_test ${LIBRARIES} gtest -pthread)
+MACRO(TEST_MACRO NAME LIBRARIES) # LIBRARIES
+    ADD_EXECUTABLE(${NAME}_test ${NAME}_test.cpp ${TEST_HEADER})
+    TARGET_LINK_LIBRARIES(${NAME}_test ${LIBRARIES} gtest -pthread)
 
     ADD_TEST(NAME ${NAME}_test
         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${NAME}_test)
-    
+
     # gtest need to be compiled first
     ADD_DEPENDENCIES(${NAME}_test gtest)
+    SET_PROPERTY(TARGET ${NAME}_test PROPERTY CXX_STANDARD 11)
 ENDMACRO(TEST_MACRO)
 
 # add test here
 # file_name_test.cpp ==> CBTEST_MACRO(file_name)
-TEST_MACRO(square)
+
+# User's Libraries
+SET(project_libraries project_test)
+
+TEST_MACRO(symbolic ${project_libraries})
+
 
