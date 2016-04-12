@@ -11,11 +11,11 @@ The project is using the following tools:
 * Dependencies: CMake + [(Git & gitmodules)(*)]
 * Performance: Hayai(**)
 
-(*) (**) subject to change in a near future
+(\*) (**) subject to change in a near future
 
 (**) Hayai print too much redundant information
 
-(*) because of Code redundancy most people will use the lastest working
+(*) because of Code redundancy. Most people will use the lastest working
 version which means there is no need for each projects to have their own
 gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway)
 
@@ -36,8 +36,9 @@ gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway)
 
 (NOT IMPLEMENTED)
 When checking your application performance you may want to check against previous
-performance. This is why 'Benchmark' save execution time per commit so performance
-evolution can be easily tracked.
+performance. This is why `Benchmark` save execution time per commit so performance
+evolution can be easily tracked. Since performance is linked to your machine
+performance information is not saved inside the repository.
 
 # How to
 
@@ -48,27 +49,23 @@ evolution can be easily tracked.
 * create library files (`.cpp` and `.h`)
 * create new CMake variable with library's files
 
-
-    SET(MY_LIBRARY_SRC
-        file1.h
-        file1.cpp
-        file2.h
-        file2.cpp
-    )
+	 	SET(MY_LIBRARY_SRC
+		    file1.h
+		    file1.cpp
+		    file2.h
+		    file2.cpp
+		)
 
 * Add the compile command:
 
+	    ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
+		SET_PROPERTY(TARGET my_library PROPERTY CXX_STANDARD 11)
 
-    ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
-    SET_PROPERTY(TARGET my_library PROPERTY CXX_STANDARD 11)
+				OR
 
-
-OR
-
-
-    ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
-    TARGET_LINK_LIBRARIES(my_exec dependencies)
-    SET_PROPERTY(TARGET my_exec PROPERTY CXX_STANDARD 11)
+	    ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
+	    TARGET_LINK_LIBRARIES(my_exec dependencies)
+	    SET_PROPERTY(TARGET my_exec PROPERTY CXX_STANDARD 11)
 
 ## Add test header
 
@@ -89,24 +86,24 @@ OR
 
 * open git bash
 * go to the project repo
-* git submodule add url_to_dependency_repo dependencies/library_name
+* `git submodule add url_to_dependency_repo dependencies/library_name`
 
-Example: add opencv to the project
+Example: add `opencv` to the project
 
     git submodule add https://github.com/Itseez/opencv.git dependencies/opencv
 
 ## Add pre-compiled Dependencies
 
-* Add FindXXX.cmake script in the cmake/ folder
-* Add FIND_PACKAGE(XXX) in ./CMakeLists.txt  (pre-compiled section)
+* Add `FindXXX.cmake` script in the `cmake/ folder`
+* Add `FIND_PACKAGE(XXX)` in `./CMakeLists.txt`  (pre-compiled section)
 
 
-    FIND_PACKAGE(openCV)
+    	FIND_PACKAGE(openCV)
 
 # Requirement
 
 * C++ Compiler
-* Python
+* Python (gtest)
 * CMake
 * Git
 * [Sphinx, Doxygen] (*)
@@ -131,7 +128,7 @@ TODO
 Bug
 ===
 
-* gtest does not compile with MinGW. This a MinGW bug. You need to deactivate
+* `gtest` does not compile with `MinGW`. This a` MinGW` bug. You need to deactivate
 pthreads for it to work (`-Dgtest_disable_pthreads=ON`)
 
 
