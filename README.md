@@ -12,7 +12,9 @@ The project is using the following tools:
 * Performance: Hayai(**)
 
 (*) (**) subject to change in a near future
+
 (**) Hayai print too much redundant information
+
 (*) because of Code redundancy most people will use the lastest working
 version which means there is no need for each projects to have their own
 gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway)
@@ -21,14 +23,14 @@ gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway)
 
 ## Directory Layout
 
-* src/          : Project Code source
-* cmake/        : CMake Scripts (FindXXX.cmake)
-* tests/        : Tests files (***_test.cpp)
-* benchmark/    : Performance tests (***_bench.cpp)
-* docs/         : Doxygen or Sphinx files
-* data/         : Data (Used to store Performance results for each git commit)
-* build/        : git ignored folder in which you can build the project
-* dependencies/ : Dependencies source code
+    src/          : Project Code source
+    cmake/        : CMake Scripts (FindXXX.cmake)
+    tests/        : Tests files (***_test.cpp)
+    benchmark/    : Performance tests (***_bench.cpp)
+    docs/         : Doxygen or Sphinx files
+    data/         : Data (Used to store Performance results for each git commit)
+    build/        : git ignored folder in which you can build the project
+    dependencies/ : Dependencies source code
 
 ## Benchmark
 
@@ -63,12 +65,12 @@ OR
     TARGET_LINK_LIBRARIES(my_exec dependencies)
     SET_PROPERTY(TARGET my_exec PROPERTY CXX_STANDARD 11)
 
-## Add tests header
+## Add test header
 
 * create file stuff_test.h
 * add '#include "stuff_test.h"' to the **_test.cpp
 
-## Add tests executable
+## Add test executable
 
 * create a new file 'my_newtest_test.cpp'
 * add TEST_MACRO(my_newtest) at the end of the file 'tests/CMakeLists.txt'
@@ -78,7 +80,7 @@ OR
 * create a new file 'my_newbench_bench.cpp'
 * add TEST_BENCH(my_newbench) at the end of the file 'benchmark/CMakeLists.txt'
 
-## Add (to be compiled) Dependencies
+## Add (to be compiled) Dependency
 
 * open git bash
 * go to the project repo
@@ -92,6 +94,8 @@ Example: add opencv to the project
 
 * Add FindXXX.cmake script in the cmake/ folder
 * Add FIND_PACKAGE(XXX) in ./CMakeLists.txt  (pre-compiled section)
+
+    FIND_PACKAGE(openCV)
 
 # Requirement
 
@@ -121,6 +125,14 @@ TODO
 Bug
 ===
 
-* gtest does not compile with MinGW. This a MinGW bug. You need to desactivate
+* gtest does not compile with MinGW. This a MinGW bug. You need to deactivate
 pthreads for it to work (-Dgtest_disable_pthreads=ON)
+
+
+Source
+======
+
+I inspired by project structure from the following projects
+
+
 
