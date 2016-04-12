@@ -43,10 +43,11 @@ evolution can be easily tracked.
 
 ## Create a library/executable
 
-* create a new folder 'src/new_library' or 'src/new_exec'
-* add 'src/new_library/src/CMakeLists.txt'
-* create library files (.cpp and .h)
+* create a new folder `src/new_library` or `src/new_exec`
+* add `src/new_library/src/CMakeLists.txt`
+* create library files (`.cpp` and `.h`)
 * create new CMake variable with library's files
+
 
     SET(MY_LIBRARY_SRC
         file1.h
@@ -57,28 +58,32 @@ evolution can be easily tracked.
 
 * Add the compile command:
 
+
     ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
     SET_PROPERTY(TARGET my_library PROPERTY CXX_STANDARD 11)
 
+
 OR
+
+
     ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
     TARGET_LINK_LIBRARIES(my_exec dependencies)
     SET_PROPERTY(TARGET my_exec PROPERTY CXX_STANDARD 11)
 
 ## Add test header
 
-* create file stuff_test.h
-* add '#include "stuff_test.h"' to the **_test.cpp
+* create file `stuff_test.h`
+* add `#include "stuff_test.h"` to the `**_test.cpp`
 
 ## Add test executable
 
-* create a new file 'my_newtest_test.cpp'
-* add TEST_MACRO(my_newtest) at the end of the file 'tests/CMakeLists.txt'
+* create a new file `my_newtest_test.cpp`
+* add `TEST_MACRO(my_newtest)` at the end of the file `tests/CMakeLists.txt`
 
 ## Add Benchmark
 
-* create a new file 'my_newbench_bench.cpp'
-* add TEST_BENCH(my_newbench) at the end of the file 'benchmark/CMakeLists.txt'
+* create a new file `my_newbench_bench.cpp`
+* add `TEST_BENCH(my_newbench)` at the end of the file `benchmark/CMakeLists.txt`
 
 ## Add (to be compiled) Dependency
 
@@ -94,6 +99,7 @@ Example: add opencv to the project
 
 * Add FindXXX.cmake script in the cmake/ folder
 * Add FIND_PACKAGE(XXX) in ./CMakeLists.txt  (pre-compiled section)
+
 
     FIND_PACKAGE(openCV)
 
@@ -126,13 +132,6 @@ Bug
 ===
 
 * gtest does not compile with MinGW. This a MinGW bug. You need to deactivate
-pthreads for it to work (-Dgtest_disable_pthreads=ON)
-
-
-Source
-======
-
-I inspired by project structure from the following projects
-
+pthreads for it to work (`-Dgtest_disable_pthreads=ON`)
 
 
