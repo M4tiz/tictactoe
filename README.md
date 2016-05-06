@@ -15,9 +15,11 @@ The project is using the following tools:
 
 (**) Hayai print too much redundant information
 
-(*) because of Code redundancy. Most people will use the lastest working
+(*) because of Code redundancy. Most people will use the latest working
 version which means there is no need for each projects to have their own
-gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway)
+gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway.
+But it does make a lot of pain go away)
+
 
 # Configuration
 
@@ -91,10 +93,11 @@ performance information is not saved inside the repository.
 Example: add `opencv` to the project
 
     git submodule add https://github.com/Itseez/opencv.git dependencies/opencv
+    git submodule add https://github.com/google/googletest.git dependencies/gtest
 
 ## Add pre-compiled Dependencies
 
-* Add `FindXXX.cmake` script in the `cmake/ folder`
+* Add `FindXXX.cmake` script in the `cmake/` folder
 * Add `FIND_PACKAGE(XXX)` in `./CMakeLists.txt`  (pre-compiled section)
 
 
@@ -115,9 +118,23 @@ TODO
 ====
 
 * How to
-* Profiling
 * Valgrind utils/Sanitizer Command/debbuger
-* Doc
+
+        # Need to find a better way
+        # Hardcoded:
+        SET(LEAK_FLAG " -Werror -fsanitize=leak ") # this for clang
+        SET(CMAKE_CXX_FLAGS ${LEAK_FLAG})
+
+        # would be nice to have something like:
+        # for each target "xyz" we have a
+            - make san/leak/xyz
+            - make san/thread/xyz
+            - make lld/xyz
+            - make format
+            - make tidy
+        # need to check how much caching is done between each exec version
+
+* Profiling
 * Goole Perf ?
 * Nonius ? <== Need to be updated
 * hayai ?
@@ -131,4 +148,6 @@ Bug
 * `gtest` does not compile with `MinGW`. This a` MinGW` bug. You need to deactivate
 pthreads for it to work (`-Dgtest_disable_pthreads=ON`)
 
-
+* travis gcc compiler has some trouble with C++11 and CMake (CXX_STANDARD 11)
+`final` was not recognized in one of my project. I do use GCC by default on
+all my projects but I use clang for travis because of that.
