@@ -7,9 +7,6 @@
 [submodule "dependencies/nonius"]
 	path = dependencies/nonius
 	url = git@github.com:rmartinho/nonius
-[submodule "dependencies/cpm"]
-	path = dependencies/cpm
-	url = git@github.com:wichtounet/cpm
 [submodule "dependencies/gperftools"]
 	path = dependencies/gperftools
 	url = git@github.com:gperftools/gperftools.git
