@@ -5,7 +5,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 PROJECT(project_test CXX)
 
 # debug/release
-SET(CMAKE_RELEASE_POSTFIX "")       # Release is the default
+SET(CMAKE_RELEASE_POSTFIX "")                  # Release is the default
 SET(CMAKE_DEBUG_POSTFIX "-debug")
 
 # Compiler-flag
@@ -13,7 +13,7 @@ IF(${CMAKE_BUILD_TYPE} MATCHES "Debug")
     MESSAGE(STATUS "Building Debug Version")
 ELSE()
     MESSAGE(STATUS "Building Release Version")
-    # ADD_DEFINITIONS(-O2)                        # CMake Release is O3 by default
+    # ADD_DEFINITIONS(-O2)                     # CMake Release is O3 by default
 ENDIF()
 
 # specify where compiled files must go
@@ -98,5 +98,30 @@ IF (BUILD_DOCUMENTATION)
     MESSAGE(STATUS "Documentation building is enabled")
     ADD_SUBDIRECTORY(docs)
 ENDIF (BUILD_DOCUMENTATION)
+
+# Integrate tools inside cmake
+# this will create a make command for us
+
+# cmake shortcuts
+ADD_CUSTOM_TARGET(compile-db DEBUG
+    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ${CMAKE_SOURCE_DIR})
+
+# Qt creator cmake integration makes this useless
+ADD_CUSTOM_TARGET(activate-examples DEBUG
+    cmake -DBUILD_EXAMPLES=ON ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(desactivate-examples DEBUG
+    cmake -DBUILD_EXAMPLES=OFF ${CMAKE_SOURCE_DIR})
+
+# should I pass tests too ?
+ADD_CUSTOM_TARGET(clang-tidy DEBUG
+    clang-tidy -p= ${CMAKE_BINARY_DIR} -header-filter=.*
+        ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
+
+# clang sanitizer require compilation
+# lldb
+
+
+
 
 

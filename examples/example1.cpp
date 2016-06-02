@@ -44,7 +44,7 @@ int main()
         {"x", sym::make_val(2)}
     };
 
-    auto partial_f =f->partial_eval(ctx2);
+    auto partial_f = f->partial_eval(ctx2);
     std::cout << "Partial Function: ";  sym::print(partial_f);
 
     //  free memory
