@@ -1,11 +1,10 @@
-# required for C++11 features
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 
 # project name + language used
 PROJECT(project_test C CXX)
 
 # debug/release
-SET(CMAKE_RELEASE_POSTFIX "")                  # Release is the default
+SET(CMAKE_RELEASE_POSTFIX "")
 SET(CMAKE_DEBUG_POSTFIX "-debug")
 
 # specify where compiled files must go
