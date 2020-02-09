@@ -132,4 +132,5 @@ ADD_CUSTOM_TARGET(zothers ALL SOURCES
     README.md
     .travis.yml
     .gitignore
+    .gitmodules
 )

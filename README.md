@@ -59,13 +59,15 @@ Show casing logging, versioning and stack trace dump
 
 # How to
 
-* Get Coverage
+## Get Coverage
+
 
     cd build
     make enable-test
     make test
     make coverage
     firefox ./coverage/index.html
+
 
 ## Create a library/executable
 
@@ -74,23 +76,25 @@ Show casing logging, versioning and stack trace dump
 * create library files (`.cpp` and `.h`)
 * create new CMake variable with library's files
 
-	 	SET(MY_LIBRARY_SRC
-		    file1.h
-		    file1.cpp
-		    file2.h
-		    file2.cpp
-		)
+
+    SET(MY_LIBRARY_SRC
+        file1.h
+        file1.cpp
+        file2.h
+        file2.cpp
+    )
+
 
 * Add the compile command:
 
-	    ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
-		SET_PROPERTY(TARGET my_library PROPERTY CXX_STANDARD 11)
 
-				OR
+    ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
 
-	    ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
-	    TARGET_LINK_LIBRARIES(my_exec dependencies)
-	    SET_PROPERTY(TARGET my_exec PROPERTY CXX_STANDARD 11)
+            OR
+
+    ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
+    TARGET_LINK_LIBRARIES(my_exec dependencies)
+
 
 ## Add test header
 
@@ -117,6 +121,13 @@ Example: add `opencv` to the project
 
     git submodule add https://github.com/Itseez/opencv.git dependencies/opencv
     git submodule add https://github.com/google/googletest.git dependencies/gtest
+
+## Remove submodule
+
+    rm -rf ../.git/modules/dependencies/library_name
+    vi .gitmodules
+    # remove the modules
+
 
 ## Add pre-compiled Dependencies
 
@@ -157,16 +168,11 @@ TODO
             - make tidy
         # need to check how much caching is done between each exec version
 
-* Profiling
 * Goole Perf ?
-* Nonius ? <== Need to be updated
-* hayai ?
-* Configuration files
 * Generated files
-* Empirical Complexity Analysis would be nice
 
-Bug
-===
+Bugs
+====
 
 * `gtest` does not compile with `MinGW`. This a` MinGW` bug. You need to deactivate
 pthreads for it to work (`-Dgtest_disable_pthreads=ON`)
