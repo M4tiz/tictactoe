@@ -6,18 +6,23 @@ INCLUDE(CTest)
 SET(TEST_HEADER
     add_test.h mult_test.h)
 
+setup_target_for_coverage_gcovr_html(
+    NAME coverage
+    EXECUTABLE ctest -j 4)
+
 # Add your test to CMAKE
 # to run all tests run 'make test'
 MACRO(TEST_MACRO NAME LIBRARIES) # LIBRARIES
     ADD_EXECUTABLE(${NAME}_test ${NAME}_test.cpp ${TEST_HEADER})
     TARGET_LINK_LIBRARIES(${NAME}_test ${LIBRARIES} gtest -pthread)
 
-    ADD_TEST(NAME ${NAME}_test
-        COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${NAME}_test)
-
     # gtest need to be compiled first
     ADD_DEPENDENCIES(${NAME}_test gtest)
-    SET_PROPERTY(TARGET ${NAME}_test PROPERTY CXX_STANDARD 11)
+    ADD_DEPENDENCIES(coverage ${NAME}_test)
+    ADD_TEST(
+        NAME ${NAME}_test
+        WORKING_DIRECTORY .
+        COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${NAME}_test)
 ENDMACRO(TEST_MACRO)
 
 # add test here
@@ -27,7 +32,3 @@ ENDMACRO(TEST_MACRO)
 SET(project_libraries project_test)
 
 TEST_MACRO(symbolic ${project_libraries})
-
-setup_target_for_coverage_gcovr_html(
-    NAME coverage
-    EXECUTABLE ctest -j 4)

@@ -20,12 +20,9 @@ SET(PROJECT_TEST_SRC
 # main library (prevent recompilation when building tests)
 ADD_LIBRARY(${PROJECT_NAME} ${PROJECT_TEST_SRC} ${PROJECT_TEST_HDS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} spdlog::spdlog)
-SET_PROPERTY(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
 
 #  main executable
 # ==========================
 
 ADD_EXECUTABLE(main main.cpp)
 TARGET_LINK_LIBRARIES(main spdlog::spdlog project_test)
-SET_PROPERTY(TARGET main PROPERTY CXX_STANDARD 11)
-

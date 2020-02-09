@@ -19,8 +19,8 @@ LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 # C++ Standard
 # ====================================
 
-# Comment out if C++11 is not mendatory
-SET(${CXX_STANDARD_REQUIRED} ON)
+SET(CMAKE_CXX_STANDARD 20)
+SET(CXX_STANDARD_REQUIRED ON)
 
 # Project's Options
 # ====================================
@@ -34,7 +34,6 @@ OPTION(BUILD_SPHINX         "Build Sphinx docs"  OFF)
 
 # Binary/pre-compiled Dependencies
 # ====================================
-
 FIND_PACKAGE(Git REQUIRED)
 
 
