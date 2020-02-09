@@ -4,34 +4,34 @@
 namespace sym{
 
 double Placeholder::full_eval(const Context& c)     { return c.at(_name)->full_eval(c); }
-ABSExpr* Placeholder::partial_eval(const Context& c){ return c.count(_name) == 0 ? this : c.at(_name); }
+Expr Placeholder::partial_eval(const Context& c)    { return c.count(_name) == 0 ? Placeholder::make(_name) : c.at(_name); }
 std::ostream& Placeholder::gen(std::ostream& out)   { return out << _name;}
-ABSExpr* Placeholder::derivate(const std::string& n){ return n == _name ? new Scalar(1): new Scalar(0); }
+Expr Placeholder::derivate(const std::string& n)    { return n == _name ? Scalar::make(1): Scalar::make(0); }
 
 double Scalar::full_eval(const Context&)        {   return _value; }
-ABSExpr* Scalar::partial_eval(const Context&)   {   return this; }
+Expr Scalar::partial_eval(const Context&)       {   return Scalar::make(_value); }
 std::ostream& Scalar::gen(std::ostream& out)    {   return out << _value; }
-ABSExpr* Scalar::derivate(const std::string&)   {   return new Scalar(0); }
+Expr Scalar::derivate(const std::string&)       {   return Scalar::make(0); }
 
-double Add::full_eval(const Context& c)         {   return _lhs->full_eval(c) + _rhs->full_eval(c); }
-ABSExpr* Add::partial_eval(const Context& c)    {   return new Add(_lhs->partial_eval(c), _rhs->partial_eval(c));}
-std::ostream& Add::gen(std::ostream& out)       {   out << "("; _lhs->gen(out) << " + "; _rhs->gen(out) << ")"; return out;}
-ABSExpr* Add::derivate(const std::string& c)    {   return new Add(_lhs->derivate(c), _rhs->derivate(c));}
+double Add::full_eval(const Context& c)     {   return _lhs->full_eval(c) + _rhs->full_eval(c); }
+Expr Add::partial_eval(const Context& c)    {   return Add::make(_lhs->partial_eval(c), _rhs->partial_eval(c));}
+std::ostream& Add::gen(std::ostream& out)   {   out << "("; _lhs->gen(out) << " + "; _rhs->gen(out) << ")"; return out;}
+Expr Add::derivate(const std::string& c)    {   return Add::make(_lhs->derivate(c), _rhs->derivate(c));}
 
-double Mult::full_eval(const Context& c)        {   return _lhs->full_eval(c) * _rhs->full_eval(c); }
-ABSExpr* Mult::partial_eval(const Context& c)   {   return new Mult(_lhs->partial_eval(c), _rhs->partial_eval(c));}
-std::ostream& Mult::gen(std::ostream& out)      {   out << "("; _lhs->gen(out) << " * "; _rhs->gen(out) << ")"; return out;}
+double Mult::full_eval(const Context& c)    {   return _lhs->full_eval(c) * _rhs->full_eval(c); }
+Expr Mult::partial_eval(const Context& c)   {   return Mult::make(_lhs->partial_eval(c), _rhs->partial_eval(c));}
+std::ostream& Mult::gen(std::ostream& out)  {   out << "("; _lhs->gen(out) << " * "; _rhs->gen(out) << ")"; return out;}
 
-ABSExpr* Mult::derivate(const std::string& c)   {
-    auto a = new Mult(_lhs->derivate(c), _rhs);
-    auto b = new Mult(_lhs, _rhs->derivate(c));
-    return new Add(a, b);
+Expr Mult::derivate(const std::string& c)   {
+    auto a = Mult::make(_lhs->derivate(c), _rhs);
+    auto b = Mult::make(_lhs, _rhs->derivate(c));
+    return Add::make(a, b);
 }
 
-ABSExpr* make_var(const std::string& name) {   return new Placeholder(name);   }
-ABSExpr* make_val(double v)                {   return new Scalar(v);   }
-ABSExpr* mult(ABSExpr* l , ABSExpr* r)     {   return new Mult(l, r);  }
-ABSExpr* add(ABSExpr* l , ABSExpr* r)      {   return new Add(l, r);   }
+Expr make_var(const std::string& name)  {   return Placeholder::make(name);   }
+Expr make_val(double v)                 {   return Scalar::make(v);   }
+Expr mult(Expr l , Expr r)              {   return Mult::make(l, r);  }
+Expr add(Expr l , Expr r)               {   return Add::make(l, r);   }
 
-void print(ABSExpr* f) { f->gen(std::cout) << std::endl; }
+void print(Expr f) { f->gen(std::cout) << std::endl; }
 }

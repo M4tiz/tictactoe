@@ -18,5 +18,10 @@ before_script:
   - mkdir build
   - cd build
   - cmake ..
+  - make enable-debug
+  - make enable-test
 
-script: make
+script:
+  - make
+  - ./bin/symbolic_test
+  - make coverage

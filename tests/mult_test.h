@@ -11,8 +11,6 @@ TEST(Mult, eval)
     sym::Context ctx;
 
     EXPECT_DOUBLE_EQ(21 * 32, f->full_eval(ctx));
-
-    delete f;
 }
 
 // This test will fail because mult->derivate implementation is wrong
@@ -27,10 +25,6 @@ TEST(Mult, derivate)
     auto deriv = f->derivate("x");
 
     EXPECT_DOUBLE_EQ(32, deriv->full_eval(ctx));
-
-    delete x;
-    delete f;
-    delete deriv;
 }
 
 

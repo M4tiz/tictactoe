@@ -4,21 +4,27 @@
 #include <unordered_map>
 #include <ostream>
 #include <string>
+#include <memory>
 
 namespace sym
 {
 
 class ABSExpr;
-typedef std::unordered_map<std::string, ABSExpr*> Context;
+using Expr = std::shared_ptr<ABSExpr>;
+using Context = std::unordered_map<std::string, Expr>;
 
 class ABSExpr
 {
 public:
     virtual double full_eval(const Context&) = 0;
-    virtual ABSExpr* partial_eval(const Context&) = 0;
+    virtual Expr partial_eval(const Context&) = 0;
+    virtual Expr derivate(const std::string&) = 0;
     virtual std::ostream& gen(std::ostream&) = 0;
-    virtual ABSExpr* derivate(const std::string&) = 0;
+
+    virtual ~ABSExpr(){}
 };
+
+
 
 class Placeholder: public ABSExpr
 {
@@ -28,10 +34,13 @@ public:
     {}
 
     double full_eval(const Context&) override;
-    ABSExpr* partial_eval(const Context&) override;
+    Expr partial_eval(const Context&) override;
     std::ostream& gen(std::ostream&) override;
-    ABSExpr* derivate(const std::string&) override;
+    Expr derivate(const std::string&) override;
 
+    static Expr make(const std::string& name){
+        return std::make_shared<Placeholder>(name);
+    }
 private:
     std::string _name;
 };
@@ -44,10 +53,13 @@ public:
     {}
 
     double full_eval(const Context&) override;
-    ABSExpr* partial_eval(const Context&) override;
+    Expr partial_eval(const Context&) override;
     std::ostream& gen(std::ostream&) override;
-    ABSExpr* derivate(const std::string&) override;
+    Expr derivate(const std::string&) override;
 
+    static Expr make(double v){
+        return std::make_shared<Scalar>(v);
+    }
 private:
     double _value;
 };
@@ -55,53 +67,51 @@ private:
 class Add: public ABSExpr
 {
 public:
-    Add( ABSExpr* a,  ABSExpr* b) noexcept:
+    Add(Expr a, Expr b) noexcept:
         _lhs(a), _rhs(b)
     {}
 
-    ~Add(){
-        delete _lhs;
-        delete _rhs;
+    double full_eval(const Context&) override;
+    Expr partial_eval(const Context&) override;
+    std::ostream& gen(std::ostream&) override;
+    Expr derivate(const std::string&) override;
+
+    static Expr make(Expr a, Expr b){
+        return std::make_shared<Add>(a, b);
     }
 
-    double full_eval(const Context&) override;
-    ABSExpr* partial_eval(const Context&) override;
-    std::ostream& gen(std::ostream&) override;
-    ABSExpr* derivate(const std::string&) override;
-
 private:
-    ABSExpr* _lhs;
-    ABSExpr* _rhs;
+    Expr _lhs;
+    Expr _rhs;
 };
 
 class Mult: public ABSExpr
 {
 public:
-    Mult( ABSExpr* a,  ABSExpr* b) noexcept:
+    Mult( Expr a,  Expr b) noexcept:
         _lhs(a), _rhs(b)
     {}
 
-    ~Mult(){
-        delete _lhs;
-        delete _rhs;
+    double full_eval(const Context&) override;
+    Expr partial_eval(const Context&) override;
+    std::ostream& gen(std::ostream&) override;
+    Expr derivate(const std::string&) override;
+
+    static Expr make(Expr a, Expr b){
+        return std::make_shared<Mult>(a, b);
     }
 
-    double full_eval(const Context&) override;
-    ABSExpr* partial_eval(const Context&) override;
-    std::ostream& gen(std::ostream&) override;
-    ABSExpr* derivate(const std::string&) override;
-
 private:
-    ABSExpr* _lhs;
-    ABSExpr* _rhs;
+    Expr _lhs;
+    Expr _rhs;
 };
 
 
-ABSExpr* make_var(const std::string& name);
-ABSExpr* make_val(double v);
-ABSExpr* mult(ABSExpr* l , ABSExpr* r);
-ABSExpr* add(ABSExpr* l , ABSExpr* r);
-void print(ABSExpr* f);
+Expr make_var(const std::string& name);
+Expr make_val(double v);
+Expr mult(Expr l, Expr r);
+Expr add(Expr l, Expr r);
+void print(Expr f);
 
 }
 

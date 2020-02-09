@@ -11,8 +11,6 @@ TEST(add, eval)
     sym::Context ctx;
 
     EXPECT_DOUBLE_EQ(21 + 32, f->full_eval(ctx));
-
-    delete f;
 }
 
 TEST(add, derivate)
@@ -25,10 +23,6 @@ TEST(add, derivate)
     auto deriv = f->derivate("x");
 
     EXPECT_DOUBLE_EQ(1, deriv->full_eval(ctx));
-
-    delete x;
-    delete f;
-    delete deriv;
 }
 
 
