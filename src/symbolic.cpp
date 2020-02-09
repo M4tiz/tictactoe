@@ -4,7 +4,14 @@
 namespace sym{
 
 double Placeholder::full_eval(const Context& c)     { return c.at(_name)->full_eval(c); }
-Expr Placeholder::partial_eval(const Context& c)    { return c.count(_name) == 0 ? Placeholder::make(_name) : c.at(_name); }
+Expr Placeholder::partial_eval(const Context& c)    {
+    try{
+        return c.at(_name);
+    } catch (std::out_of_range const&) {
+        return Placeholder::make(_name);
+        // return std::weak_ptr(?);
+    }
+}
 std::ostream& Placeholder::gen(std::ostream& out)   { return out << _name;}
 Expr Placeholder::derivate(const std::string& n)    { return n == _name ? Scalar::make(1): Scalar::make(0); }
 
