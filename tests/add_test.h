@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include <Symbolic.h>
+#include <symbolic.h>
 
 TEST(add, eval)
 {

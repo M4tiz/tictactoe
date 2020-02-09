@@ -2,19 +2,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 # project name + language used
-PROJECT(project_test CXX)
+PROJECT(project_test C CXX)
 
 # debug/release
 SET(CMAKE_RELEASE_POSTFIX "")                  # Release is the default
 SET(CMAKE_DEBUG_POSTFIX "-debug")
-
-# Compiler-flag
-IF(${CMAKE_BUILD_TYPE} MATCHES "Debug")
-    MESSAGE(STATUS "Building Debug Version")
-ELSE()
-    MESSAGE(STATUS "Building Release Version")
-    # ADD_DEFINITIONS(-O2)                     # CMake Release is O3 by default
-ENDIF()
 
 # specify where compiled files must go
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -24,26 +16,11 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # add cmake FindXXX script to find pre-compiled libraries if any
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-
-#
-#   Cross compiling option
-#   CMAKE_CROSSCOMPILING true
-#   CMAKE_SYSTEM_NAME   Linux Mac Windows
-#   CMAKE_SYSTEM_VERSION
-#   CMAKE_SYSTEM_PROCESSOR
-#   CMAKE_C_COMPILER
-#   CMAKE_CXX_COMPILER
-
-# Once the system and the compiler are determined by CMake, it loads the corresponding files in the following order:
-
-#Platform/${CMAKE_SYSTEM_NAME}.cmake (optional, but issues a stern warning)    #Platform/${CMAKE_SYSTEM_NAME}-<compiler>.cmake (optional)
-#Platform/${CMAKE_SYSTEM_NAME}-<compiler>-${CMAKE_SYSTEM_PROCESSOR}.cmake (optional)
-
-
 # C++ Standard
 # ====================================
 
-SET(${CXX_STANDARD_REQUIRED} ON)    # Comment out if C++11 is not mendatory
+# Comment out if C++11 is not mendatory
+SET(${CXX_STANDARD_REQUIRED} ON)
 
 # Project's Options
 # ====================================
@@ -59,15 +36,30 @@ OPTION(BUILD_SPHINX         "Build Sphinx docs"  OFF)
 # ====================================
 
 FIND_PACKAGE(Git REQUIRED)
-# FIND_PACKAGE(...)
 
 
-# Subdirectories
+# Configuration
 # ====================================
 
 # Find revision ID and hash of the sourcetree
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR})
-INCLUDE(cmake/genrev.cmake)
+INCLUDE(genrev)
+INCLUDE(CodeCoverage)
+
+append_coverage_compiler_flags()
+
+# Compiler-flag
+IF(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    MESSAGE(STATUS "Building Debug Version")
+    ADD_DEFINITIONS(-O0)
+    ADD_LINK_OPTIONS(-rdynamic)         # For stack trace with symbols
+ELSE()
+    MESSAGE(STATUS "Building Release Version")
+    ADD_DEFINITIONS(-O2)
+ENDIF()
+
+# Subdirectories
+# ====================================
 
 # Dependencies to be compiled
 ADD_SUBDIRECTORY(dependencies)
@@ -78,7 +70,6 @@ ADD_SUBDIRECTORY(src)
 # Compile tests ?
 IF(BUILD_TESTING)
     ENABLE_TESTING()
-
     MESSAGE(STATUS "Building tests")
     ADD_SUBDIRECTORY(tests)
 ENDIF(BUILD_TESTING)
@@ -99,29 +90,47 @@ IF (BUILD_DOCUMENTATION)
     ADD_SUBDIRECTORY(docs)
 ENDIF (BUILD_DOCUMENTATION)
 
-# Integrate tools inside cmake
-# this will create a make command for us
 
-# cmake shortcuts
+# Helper commands
+# ====================================
+# so you do not have to leave the command line
+# or remember the exact arguments
+
+ADD_CUSTOM_TARGET(enable-examples
+    cmake -DBUILD_EXAMPLES=ON ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(disable-examples
+    cmake -DBUILD_EXAMPLES=OFF ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(enable-release
+    cmake -DCMAKE_BUILD_TYPE=Release ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(enable-doc
+    cmake -DBUILD_DOCUMENTATION=ON ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(enable-bench
+    cmake -DBUILD_BENCHMARK=ON ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(enable-debug
+    cmake -DCMAKE_BUILD_TYPE=Debug ${CMAKE_SOURCE_DIR})
+
+ADD_CUSTOM_TARGET(enable-test
+    cmake -DBUILD_TESTING=ON ${CMAKE_SOURCE_DIR})
+
 ADD_CUSTOM_TARGET(compile-db DEBUG
     cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ${CMAKE_SOURCE_DIR})
 
-# Qt creator cmake integration makes this useless
-ADD_CUSTOM_TARGET(activate-examples DEBUG
-    cmake -DBUILD_EXAMPLES=ON ${CMAKE_SOURCE_DIR})
-
-ADD_CUSTOM_TARGET(desactivate-examples DEBUG
-    cmake -DBUILD_EXAMPLES=OFF ${CMAKE_SOURCE_DIR})
-
-# should I pass tests too ?
 ADD_CUSTOM_TARGET(clang-tidy DEBUG
     clang-tidy -p= ${CMAKE_BINARY_DIR} -header-filter=.*
         ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
 
-# clang sanitizer require compilation
-# lldb
 
+# Resource Files
+# ====================================
+# Some IDEs need the files to be inside a cmake target to be displayed
 
-
-
-
+ADD_CUSTOM_TARGET(zothers ALL SOURCES
+    README.md
+    .travis.yml
+    .gitignore
+)

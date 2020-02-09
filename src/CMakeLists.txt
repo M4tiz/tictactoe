@@ -4,26 +4,28 @@ INCLUDE_DIRECTORIES(.)
 # Source files
 # ====================================
 #           (Glob is not recommended)
+#   file(GLOB APL_SRC *.cc)
+#   file(GLOB_RECURSE APL_SRC *.cc)
 
 SET(PROJECT_TEST_HDS
     symbolic.h
+    logger.h
 )
 
 SET(PROJECT_TEST_SRC
     symbolic.cpp
+    logger.cpp
 )
 
 # main library (prevent recompilation when building tests)
 ADD_LIBRARY(${PROJECT_NAME} ${PROJECT_TEST_SRC} ${PROJECT_TEST_HDS})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} spdlog::spdlog)
 SET_PROPERTY(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-
 
 #  main executable
 # ==========================
 
-# ADD_EXECUTABLE(main main.cpp)
-# TARGET_LINK_LIBRARIES(main project_test)
-# SET_PROPERTY(TARGET main PROPERTY CXX_STANDARD 11)
-
-
+ADD_EXECUTABLE(main main.cpp)
+TARGET_LINK_LIBRARIES(main spdlog::spdlog project_test)
+SET_PROPERTY(TARGET main PROPERTY CXX_STANDARD 11)
 

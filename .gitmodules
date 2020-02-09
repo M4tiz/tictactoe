@@ -7,3 +7,6 @@
 [submodule "dependencies/nonius"]
 	path = dependencies/nonius
 	url = git@github.com:rmartinho/nonius
+[submodule "dependencies/spdlog"]
+	path = dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git

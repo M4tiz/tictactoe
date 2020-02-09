@@ -9,17 +9,9 @@ The project is using the following tools:
 * Build Tool: CMake
 * Version Control System: Git
 * Dependencies: CMake + [(Git & gitmodules)(*)]
-* Performance: Hayai(**)
-
-(\*) (**) subject to change in a near future
-
-(**) Hayai print too much redundant information
-
-(*) because of Code redundancy. Most people will use the latest working
-version which means there is no need for each projects to have their own
-gtest(or else) repo (10 projects = 10 identical copies of gtest ? Noway.
-But it does make a lot of pain go away)
-
+* Coverage using gcov
+* Exceptions with Stack Trace
+* logging spdlog
 
 # Configuration
 
@@ -34,15 +26,46 @@ But it does make a lot of pain go away)
     build/        : git ignored folder in which you can build the project
     dependencies/ : Dependencies source code
 
-## Benchmark
+# Examples
 
-(NOT IMPLEMENTED)
-When checking your application performance you may want to check against previous
-performance. This is why `Benchmark` save execution time per commit so performance
-evolution can be easily tracked. Since performance is linked to your machine
-performance information is not saved inside the repository.
+Show casing logging, versioning and stack trace dump
+
+    mkdir build
+    cd build
+    CC=gcc CXX=g++ cmake ..
+    make
+    ./bin/main
+    [I] [09-02-2020 16:49:13.014] [28158] /home/setepenre/work/cxx_skeleton/src/main.cpp:16 main - Testing throwing function
+    [I] [09-02-2020 16:49:13.014] [28158] /home/setepenre/work/cxx_skeleton/src/main.cpp:17 main - version hash  : f0d8eafa92a859e5537594425bae588206374c78
+    [I] [09-02-2020 16:49:13.014] [28158] /home/setepenre/work/cxx_skeleton/src/main.cpp:18 main - version date  : 2016-06-02 16:45:46 -0400
+    [I] [09-02-2020 16:49:13.014] [28158] /home/setepenre/work/cxx_skeleton/src/main.cpp:19 main - version branch: master
+    [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(_ZN3sym13get_backtraceB5cxx11Em+0x79) [0x564278526419]
+    [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(_ZN3sym14show_backtraceEv+0x28) [0x564278526d48]
+    [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(_ZNK3sym9Exception4whatEv+0x9) [0x564278526de9]
+    [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(+0x310d8) [0x5642784fd0d8]
+    [C] [09-02-2020 16:49:13.015] [28158] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7fda53cbdb97]
+    [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(_start+0x2a) [0x5642784fe67a]
+
+# Command
+
+    make enable-examples    # enable compiling examples
+    make disable-examples
+    make enable-release     # enable release compilation
+    make enable-debug       # enable debug compilation
+    make enable-bench       # enable benchmarks compilations
+    make enable-test        # enable compiling tests
+    make enable-doc         # enable generating docs
+    make coverage           # execute tests & compute coverage
 
 # How to
+
+* Get Coverage
+
+    cd build
+    make enable-test
+    make test
+    make coverage
+    firefox ./coverage/index.html
 
 ## Create a library/executable
 

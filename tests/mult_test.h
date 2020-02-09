@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include <Symbolic.h>
+#include <symbolic.h>
 
 TEST(Mult, eval)
 {
@@ -19,9 +19,10 @@ TEST(Mult, eval)
 TEST(Mult, derivate)
 {
     auto x = sym::make_var("x");
-
     auto f = sym::mult(x, sym::make_val(32));
+
     sym::Context ctx;
+    ctx["x"] = sym::make_val(2);
 
     auto deriv = f->derivate("x");
 

@@ -1,5 +1,6 @@
 # tests need source header
 INCLUDE_DIRECTORIES(../src)
+INCLUDE(CTest)
 
 # This is for QtCreator which does not add single header to the project
 SET(TEST_HEADER
@@ -27,4 +28,6 @@ SET(project_libraries project_test)
 
 TEST_MACRO(symbolic ${project_libraries})
 
-
+setup_target_for_coverage_gcovr_html(
+    NAME coverage
+    EXECUTABLE ctest -j 4)

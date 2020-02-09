@@ -7,13 +7,6 @@
 
 namespace sym
 {
-// ----------------------------------------------------------------------------
-//                        ./!\ WARNING /!\.
-//      This code is left intentionally buggy as this is part of a
-//      CMake C++ project template. Those bug are needed to test
-//      this template
-//
-// ----------------------------------------------------------------------------
 
 class ABSExpr;
 typedef std::unordered_map<std::string, ABSExpr*> Context;

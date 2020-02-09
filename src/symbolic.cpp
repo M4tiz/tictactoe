@@ -1,4 +1,4 @@
-#include "Symbolic.h"
+#include "symbolic.h"
 #include <iostream>
 
 namespace sym{
@@ -21,9 +21,12 @@ ABSExpr* Add::derivate(const std::string& c)    {   return new Add(_lhs->derivat
 double Mult::full_eval(const Context& c)        {   return _lhs->full_eval(c) * _rhs->full_eval(c); }
 ABSExpr* Mult::partial_eval(const Context& c)   {   return new Mult(_lhs->partial_eval(c), _rhs->partial_eval(c));}
 std::ostream& Mult::gen(std::ostream& out)      {   out << "("; _lhs->gen(out) << " * "; _rhs->gen(out) << ")"; return out;}
-// Yes I know to derivate.
-// This mistake was made in purpose we have something to test
-ABSExpr* Mult::derivate(const std::string& c)   {   return new Mult(_lhs->derivate(c), _rhs->derivate(c));}
+
+ABSExpr* Mult::derivate(const std::string& c)   {
+    auto a = new Mult(_lhs->derivate(c), _rhs);
+    auto b = new Mult(_lhs, _rhs->derivate(c));
+    return new Add(a, b);
+}
 
 ABSExpr* make_var(const std::string& name) {   return new Placeholder(name);   }
 ABSExpr* make_val(double v)                {   return new Scalar(v);   }
