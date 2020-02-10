@@ -46,7 +46,7 @@ Show casing logging, versioning and stack trace dump
     [C] [09-02-2020 16:49:13.015] [28158] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xe7) [0x7fda53cbdb97]
     [C] [09-02-2020 16:49:13.015] [28158] ./bin/main(_start+0x2a) [0x5642784fe67a]
 
-# Command
+# Commands
 
     make enable-examples    # enable compiling examples
     make disable-examples
@@ -56,6 +56,8 @@ Show casing logging, versioning and stack trace dump
     make enable-test        # enable compiling tests
     make enable-doc         # enable generating docs
     make coverage           # execute tests & compute coverage
+    make sphinx             # build sphinx documentation
+    make sphinx-serve       # serve the documentation locally
 
 # How to
 
@@ -176,7 +178,3 @@ Bugs
 
 * `gtest` does not compile with `MinGW`. This a` MinGW` bug. You need to deactivate
 pthreads for it to work (`-Dgtest_disable_pthreads=ON`)
-
-* travis gcc compiler has some trouble with C++11 and CMake (CXX_STANDARD 11)
-`final` was not recognized in one of my project. I do use GCC by default on
-all my projects but I use clang for travis because of that.

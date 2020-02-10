@@ -33,7 +33,20 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'breathe'
 ]
+
+docs_src_path = os.path.dirname(os.path.abspath(__file__))
+src_path = os.path.abspath(
+    os.path.join(docs_src_path, '..', 'build', 'doxy', 'xml'))
+
+# Breathe Configuration
+breathe_default_project = "test_project"
+breathe_projects = {
+    'test_project': src_path
+}
+
+# =================
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -51,7 +64,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'project test'
-copyright = u'2016, Pierre Delaunay'
+copyright = u'2020, Pierre Delaunay'
 author = u'Pierre Delaunay'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -112,7 +125,7 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

@@ -6,17 +6,30 @@ compiler:
 os:
 - linux
 
+addons:
+  apt:
+    packages:
+      - doxygen
+      - graphviz
+      - python3
+      - python3-pip
+      - gcovr
+
 before_script:
   - wget https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-Linux-x86_64.sh
   - chmod +x cmake-3.16.4-Linux-x86_64.sh
-  - ./cmake-3.16.4-Linux-x86_64.sh --skip-license --prefix /usr/
+  - mkdir cmake_bin
+  - ./cmake-3.16.4-Linux-x86_64.sh --skip-license --prefix=cmake_bin
+  - export PATH="$(pwd)/cmake_bin/bin:$PATH"
   - mkdir build
   - cd build
   - cmake ..
-  - make enable-debug
   - make enable-test
+  - make enable-doc
+  - make enable-debug
 
 script:
   - make
   - ./bin/symbolic_test
   - make coverage
+  - make sphinx

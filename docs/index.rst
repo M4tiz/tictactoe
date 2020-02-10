@@ -12,7 +12,6 @@ Contents:
    :maxdepth: 2
 
 
-
 Indices and tables
 ==================
 
@@ -20,3 +19,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+.. doxygenclass:: sym::Placeholder
+   :members:
+   :undoc-members:

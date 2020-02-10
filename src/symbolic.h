@@ -25,7 +25,10 @@ public:
 };
 
 
-
+/*!
+ * \brief The Placeholder class documentation
+ * \param name: name of thep placeholder
+ */
 class Placeholder: public ABSExpr
 {
 public:
@@ -64,6 +67,11 @@ private:
     double _value;
 };
 
+
+/*!
+ * \brief The Add class
+ * \param Expr a:
+ */
 class Add: public ABSExpr
 {
 public:
