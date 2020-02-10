@@ -1,11 +1,11 @@
-project_test
-============
+C++ Seed Project
+================
 
 This is a skeleton of a C++ project.
 The project is using the following tools:
 
 * Test Framework: Google Test
-* Documentation Gen: Sphinx
+* Documentation Gen: Sphinx + Doxygen
 * Build Tool: CMake
 * Version Control System: Git
 * Dependencies: CMake + [(Git & gitmodules)(*)]
