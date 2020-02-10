@@ -130,4 +130,5 @@ ADD_CUSTOM_TARGET(zothers ALL SOURCES
     .travis.yml
     .gitignore
     .gitmodules
+    .clang-format
 )

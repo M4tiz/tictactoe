@@ -12,6 +12,7 @@ The project is using the following tools:
 * Coverage using gcov
 * Exceptions with Stack Trace
 * logging spdlog
+* clang-format
 
 # Configuration
 
@@ -63,13 +64,13 @@ Show casing logging, versioning and stack trace dump
 
 ## Get Coverage
 
-
-    cd build
-    make enable-test
-    make test
-    make coverage
-    firefox ./coverage/index.html
-
+```
+cd build
+make enable-test
+make test
+make coverage
+firefox ./coverage/index.html
+```
 
 ## Create a library/executable
 
@@ -78,25 +79,27 @@ Show casing logging, versioning and stack trace dump
 * create library files (`.cpp` and `.h`)
 * create new CMake variable with library's files
 
-
-    SET(MY_LIBRARY_SRC
-        file1.h
-        file1.cpp
-        file2.h
-        file2.cpp
-    )
-
+```
+SET(MY_LIBRARY_SRC
+    file1.h
+    file1.cpp
+    file2.h
+    file2.cpp
+)
+```
 
 * Add the compile command:
 
+```
+ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
+```
 
-    ADD_LIBRARY(my_library ${MY_LIBRARY_SRC})
+Alternatively
 
-            OR
-
-    ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
-    TARGET_LINK_LIBRARIES(my_exec dependencies)
-
+```
+ADD_EXECUTABLE(my_exec ${MY_LIBRARY_SRC})
+TARGET_LINK_LIBRARIES(my_exec dependencies)
+```
 
 ## Add test header
 
@@ -136,8 +139,9 @@ Example: add `opencv` to the project
 * Add `FindXXX.cmake` script in the `cmake/` folder
 * Add `FIND_PACKAGE(XXX)` in `./CMakeLists.txt`  (pre-compiled section)
 
-
-    	FIND_PACKAGE(openCV)
+```
+FIND_PACKAGE(openCV)
+```
 
 # Requirement
 
