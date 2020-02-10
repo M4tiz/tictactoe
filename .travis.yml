@@ -29,12 +29,8 @@ install:
 
 jobs:
   include:
-    - stage: compile
+    - stage: compile-test-doc
       script:
         - make main
-    - stage: test
-      script:
         - make coverage
-    - stage: doc
-      script:
         - make sphinx
