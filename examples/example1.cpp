@@ -1,5 +1,5 @@
 #include <version.h>
-#include <Symbolic.h>
+#include <symbolic.h>
 
 #include <iostream>
 
@@ -46,20 +46,6 @@ int main()
 
     auto partial_f = f->partial_eval(ctx2);
     std::cout << "Partial Function: ";  sym::print(partial_f);
-
-    //  free memory
-    // ======================
-
-    // free function memory
-    delete f;
-    delete partial_f;
-
-    // free ctx memory
-    for(sym::Context::value_type& a: ctx)
-        delete a.second;
-
-    for(sym::Context::value_type& a: ctx2)
-        delete a.second;
 
     return 0;
 }

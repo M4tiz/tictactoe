@@ -31,7 +31,7 @@ jobs:
   include:
     - stage: compile
       script:
-        - make
+        - make main
     - stage: test
       script:
         - make coverage
