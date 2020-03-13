@@ -33,4 +33,5 @@ jobs:
       script:
         - make main
         - make coverage
+        - bash <(curl -s https://codecov.io/bash)
         - make sphinx
