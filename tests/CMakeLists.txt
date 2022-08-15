@@ -4,7 +4,7 @@ INCLUDE(CTest)
 
 # This is for QtCreator which does not add single header to the project
 SET(TEST_HEADER
-    add_test.h mult_test.h)
+    add_test.h mult_test.h game_test.h game_runner_test.h)
 
 setup_target_for_coverage_gcovr_html(
     NAME coverage

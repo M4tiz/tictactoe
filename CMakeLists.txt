@@ -32,7 +32,9 @@ OPTION(BUILD_DOCUMENTATION  "Build docs"         OFF)
 # Binary/pre-compiled Dependencies
 # ====================================
 FIND_PACKAGE(Git REQUIRED)
+FIND_PACKAGE(PkgConfig)
 
+PKG_CHECK_MODULES(GTKMM gtkmm-3.0)
 
 # Configuration
 # ====================================

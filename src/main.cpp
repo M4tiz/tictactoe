@@ -1,28 +1,18 @@
 #include "logger.h"
 #include "version.h"
+#include "game_runner.h"
+#include "iostream"
+#include "gui/gui_game_handler.h"
+#include <gtkmm-3.0/gtkmm/application.h>
 
-NEW_EXCEPTION(HugeError);
+int main(int argc, char *argv[]) {
+    auto app = Gtk::Application::create(argc, argv, "org.gtkmm.matizaurus");
+    GuiGameHandler handler;
+    // try {
+    //     ConsoleGameRunner(std::cin, std::cout).start();
+    // } catch (const std::exception& ex) {
+    //     ex.what();
+    // }
 
-int fun1(){
-    if (true){
-        throw HugeError("exepected {} got {}", 1, 2);
-    }
-
-    return 0;
-}
-
-
-int main(){
-    info("Testing throwing function");
-    info("version hash  : {}", _HASH);
-    info("version date  : {}", _DATE);
-    info("version branch: {}", _BRANCH);
-
-    try {
-        fun1();
-    } catch (const HugeError& ex) {
-        ex.what();
-    }
-
-    return 0;
+    return app -> run(handler);
 }
